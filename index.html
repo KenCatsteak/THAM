@@ -77,14 +77,29 @@
     <input type="number" class="qty" data-price="880" min="0" value="0">
 </div>
 
-<div class="item">
-    <label>J. 香腸禮盒 $630</label>
-    <input type="number" class="qty" data-price="630" min="0" value="0">
-</div>
 
 <hr>
 
 <div id="total">總金額：NT$ 0</div>
+
+<hr>
+
+<div class="item">
+    <h3>匯款資訊</h3>
+    <p>
+        台畜銀行代號：<strong>彰化銀行（009）</strong><br>
+        台畜銀行帳號：<strong>5272-01-0866-130</strong>
+    </p>
+    <p style="color: #b00000;">
+        請於匯款完成後填寫以下欄位，方便我們對帳
+    </p>
+</div>
+
+<div class="item">
+    <label>匯款帳號後五碼</label>
+    <input type="text" id="bank_last5" maxlength="5" placeholder="請輸入 5 碼" required>
+</div>
+
 
 <script>
     const qtyInputs = document.querySelectorAll('.qty');
