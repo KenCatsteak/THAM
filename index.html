@@ -8,15 +8,20 @@
         h2 { text-align: center; margin-bottom: 20px; }
         .item { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="number"] {
-            padding: 6px 8px;
-            width: 100%;
-            max-width: 260px;
-            box-sizing: border-box;
-        }
-        input[type="number"] {
-            max-width: 80px;
-        }
+input[type="text"], input[type="number"] {
+    padding: 10px 14px;
+    width: 100%;
+    max-width: 320px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* 品項數量欄位：寬一點，橫向排列好看 */
+input.qty {
+    max-width: 120px;
+    display: inline-block;
+}
+
         #total { font-weight: bold; font-size: 1.3em; margin-top: 20px; }
         button {
             cursor: pointer;
@@ -46,47 +51,47 @@
 
 <div class="item">
     <label>A. 燻烤前腿禮盒 3.7kg $3680</label>
-    <input type="number" class="qty" data-price="3680" data-name="燻烤前腿禮盒 3.7kg" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="3680" data-name="燻烤前腿禮盒 3.7kg" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>B. 燻烤前腿禮盒 2.3kg $2180</label>
-    <input type="number" class="qty" data-price="2180" data-name="燻烤前腿禮盒 2.3kg" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="2180" data-name="燻烤前腿禮盒 2.3kg" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>C. 醺藏盛饌禮盒 (燻烤前腿2.3kg+智利施赫頂級陳年紅酒750ml) $3180</label>
-    <input type="number" class="qty" data-price="3180" data-name="醺藏盛饌禮盒（含紅酒）" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="3180" data-name="醺藏盛饌禮盒（含紅酒）" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>D. 烏骨珍饌禮盒（台酒烏雞酒+黑蒜元氣雞湯） $1980</label>
-    <input type="number" class="qty" data-price="1980" data-name="烏骨珍饌禮盒（烏雞酒+湯）" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="1980" data-name="烏骨珍饌禮盒（烏雞酒+湯）" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
-    <label>E. 谷川臻味禮盒（古川岳500g+智利施赫頂級陳年紅酒750ml） $1880</label>
-    <input type="number" class="qty" data-price="1880" data-name="谷川臻味禮盒（含紅酒）" min="0" value="0">
+    <label>E. 谷川臻味禮盒（谷川岳500g+智利施赫頂級陳年紅酒750ml） $1880</label>
+    <input type="number" class="qty numeric" data-price="1880" data-name="谷川臻味禮盒（含紅酒）" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>F. 三福肉酥禮盒 (原味肉酥*2 海苔肉酥*1) $1180</label>
-    <input type="number" class="qty" data-price="1180" data-name="三福肉酥禮盒" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="1180" data-name="三福肉酥禮盒" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>G. 聚味好年禮盒 (原味肉酥+海苔肉酥+肝腸+臘腸) $1280</label>
-    <input type="number" class="qty" data-price="1280" data-name="聚味好年禮盒" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="1280" data-name="聚味好年禮盒" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>H. 肉酥禮盒 (原味肉酥+海苔肉酥) $780</label>
-    <input type="number" class="qty" data-price="780" data-name="肉酥禮盒" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="780" data-name="肉酥禮盒" min="0" value="0" inputmode="numeric">
 </div>
 
 <div class="item">
     <label>I. 雙饗肉乾禮盒(杏仁肉片(原味+海苔+黑胡椒)) $880</label>
-    <input type="number" class="qty" data-price="880" data-name="雙饗肉乾禮盒" min="0" value="0">
+    <input type="number" class="qty numeric" data-price="880" data-name="雙饗肉乾禮盒" min="0" value="0" inputmode="numeric">
 </div>
 
 
@@ -109,24 +114,27 @@
 
 <div class="item">
     <label>匯款帳號後五碼（必填，僅限數字）</label>
-    <input type="text"
-           id="bank_last5"
-           maxlength="5"
-           inputmode="numeric"
-           pattern="[0-9]{5}"
-           placeholder="請輸入 5 碼數字"
-           required>
+<input type="text"
+       id="bank_last5"
+       class="numeric"
+       maxlength="5"
+       inputmode="numeric"
+       pattern="[0-9]{5}"
+       placeholder="請輸入 5 碼數字"
+       required>
 </div>
 
 <hr>
 
-<button onclick="submitOrder()" style="padding:12px 20px;font-size:16px;">
+<button id="submitBtn" onclick="submitOrder()" style="padding:12px 20px;font-size:16px;">
     送出訂單
 </button>
 
 <script>
     const qtyInputs = document.querySelectorAll('.qty');
     const totalEl = document.getElementById('total');
+    const submitBtn = document.getElementById('submitBtn');
+
 
     function calculateTotal() {
         let sum = 0;
@@ -196,11 +204,12 @@ const payload = {
     items: items
 };
 
-// 改成你的最新 Web App URL
-const scriptUrl = "https://script.google.com/macros/s/AKfycbwNUE4NFgdh2f4FWcDo8D2Io2hIrG86kyvUhLJDqcDGtjJVBOwOqYnh81rtZQk-02s7zw/exec";
-
-// 用查詢字串方式傳資料（GET）
+const scriptUrl = "https://script.google.com/macros/s/AKfycbwNUE4NFgdh2f4FWcDo8D2Io2hIrG86kyvUhLJDqcDGtjJVBOwOqYnh81rtZQk-02s7zw/exec"; // 保留你的 URL
 const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
+
+// 送出前先鎖定按鈕，避免重複點擊
+submitBtn.disabled = true;
+submitBtn.textContent = "送出中，請稍候…";
 
 fetch(urlWithParams, {
     method: "GET"
@@ -209,13 +218,23 @@ fetch(urlWithParams, {
 .then(text => {
     if (text.trim() === "OK") {
         alert("訂單送出成功！\n訂單編號：" + orderId);
+        // 成功後維持鎖定，避免重複送單
+        submitBtn.disabled = true;
+        submitBtn.textContent = "已送出";
     } else {
         alert("訂單已送出，但伺服器回應異常：" + text);
+        // 回應異常：解鎖讓客戶可重試
+        submitBtn.disabled = false;
+        submitBtn.textContent = "送出訂單";
     }
 })
 .catch(() => {
     alert("訂單送出失敗，請稍後再試。");
+    // 發生錯誤：解鎖讓客戶可重試
+    submitBtn.disabled = false;
+    submitBtn.textContent = "送出訂單";
 });
+
 
     
     }
