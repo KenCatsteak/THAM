@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>台灣農畜禮盒預購單（即時計算版）</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; }
+        .item { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="number"] { width: 60px; }
+        #total { font-weight: bold; font-size: 1.3em; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>台灣農畜禮盒預購單（即時計算）</h2>
+
+<div class="item">
+    <label>姓名</label>
+    <input type="text" id="name" required>
+</div>
+
+<div class="item">
+    <label>手機號碼</label>
+    <input type="text" id="phone" required>
+</div>
+
+<div class="item">
+    <label>收件地址</label>
+    <input type="text" id="address" required>
+</div>
+
+<hr>
+
+<div class="item">
+    <label>A. 燻烤前腿禮盒 3.7kg $3680</label>
+    <input type="number" class="qty" data-price="3680" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>B. 燻烤前腿禮盒 2.3kg $2180</label>
+    <input type="number" class="qty" data-price="2180" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>C. 醺藏盛饌禮盒（含紅酒） $3180</label>
+    <input type="number" class="qty" data-price="3180" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>D. 烏骨珍饌禮盒（烏雞酒+湯） $1980</label>
+    <input type="number" class="qty" data-price="1980" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>E. 谷川臻味禮盒（含紅酒） $1880</label>
+    <input type="number" class="qty" data-price="1880" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>F. 三福肉酥禮盒 $1180</label>
+    <input type="number" class="qty" data-price="1180" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>G. 聚味好年禮盒 $1280</label>
+    <input type="number" class="qty" data-price="1280" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>H. 肉酥禮盒 $780</label>
+    <input type="number" class="qty" data-price="780" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>I. 雙饗肉乾禮盒 $880</label>
+    <input type="number" class="qty" data-price="880" min="0" value="0">
+</div>
+
+<div class="item">
+    <label>J. 香腸禮盒 $630</label>
+    <input type="number" class="qty" data-price="630" min="0" value="0">
+</div>
+
+<hr>
+
+<div id="total">總金額：NT$ 0</div>
+
+<script>
+    const qtyInputs = document.querySelectorAll('.qty');
+    const totalEl = document.getElementById('total');
+
+    function calculateTotal() {
+        let sum = 0;
+        qtyInputs.forEach(input => {
+            const price = parseInt(input.dataset.price);
+            const qty = parseInt(input.value) || 0;
+            sum += price * qty;
+        });
+        totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
+    }
+
+    qtyInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+    });
+</script>
+
+</body>
+</html>
