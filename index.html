@@ -186,34 +186,38 @@
                 return;
             }
         }
+const payload = {
+    orderId: orderId,
+    name: name,
+    phone: phone,
+    address: address,
+    total: total,
+    bankLast5: last5,
+    items: items
+};
 
-        const payload = {
-            orderId: orderId,
-            name: name,
-            phone: phone,
-            address: address,
-            total: total,
-            bankLast5: last5,
-            items: items
-        };
+// 改成你的最新 Web App URL
+const scriptUrl = "https://script.google.com/macros/s/AKfycbwNUE4NFgdh2f4FWcDo8D2Io2hIrG86kyvUhLJDqcDGtjJVBOwOqYnh81rtZQk-02s7zw/exec";
 
-        // ★★★ 這一行要改成你的 Apps Script Web App URL ★★★
-        const scriptUrl = "https://script.google.com/macros/s/AKfycbyoSC_bNgfiY-8dbAqOdf9Rr5Qabhogvv_nZNG5Nwxz8N5-dalnvtQ7JAY59RjXg2m99Q/exec";
+// 用查詢字串方式傳資料（GET）
+const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
 
-        fetch(scriptUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(() => {
-            alert("訂單送出成功！\n訂單編號：" + orderId);
-        })
-        .catch(() => {
-            alert("訂單送出失敗，請稍後再試。");
-        });
+fetch(urlWithParams, {
+    method: "GET"
+})
+.then(res => res.text())
+.then(text => {
+    if (text.trim() === "OK") {
+        alert("訂單送出成功！\n訂單編號：" + orderId);
+    } else {
+        alert("訂單已送出，但伺服器回應異常：" + text);
+    }
+})
+.catch(() => {
+    alert("訂單送出失敗，請稍後再試。");
+});
+
+    
     }
 </script>
 
