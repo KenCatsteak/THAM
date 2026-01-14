@@ -163,6 +163,7 @@ function submitOrder() {
         address: document.getElementById("address").value,
         total: total,
         bankLast5: last5
+        items: collectItems()
     };
 
     fetch("https://script.google.com/macros/s/AKfycbwmBcRI63_nsjcSpEKi-DWH-ZsUxNR8xA5lD7taUczavCX_YiQzizTqO8rabLNoLiAthg/exec", {
