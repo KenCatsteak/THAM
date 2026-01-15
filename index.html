@@ -145,26 +145,32 @@ input.qty {
 </button>
 
 <script>
-const qtyInputs = document.querySelectorAll('.qty');
-const totalEl = document.getElementById('total');
-const discountEl = document.getElementById('discount');
-const submitBtn = document.getElementById('submitBtn');
+    const qtyInputs = document.querySelectorAll('.qty');
+    const totalEl = document.getElementById('total');
+    const discountEl = document.getElementById('discount');
+    const submitBtn = document.getElementById('submitBtn');
 
-function calculateTotal() {
-    let sum = 0;
-    qtyInputs.forEach(input => {
-        const price = parseInt(input.dataset.price, 10);
-        const qty = parseInt(input.value, 10) || 0;
-        sum += price * qty;
+    // 僅允許數字輸入的欄位
+    const numericInputs = document.querySelectorAll('.numeric');
+    numericInputs.forEach(input => {
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+        });
     });
 
-    totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
+    function calculateTotal() {
+        let sum = 0;
+        qtyInputs.forEach(input => {
+            const price = parseInt(input.dataset.price, 10);
+            const qty = parseInt(input.value, 10) || 0;
+            sum += price * qty;
+        });
 
-    // 九折後金額（90%），小數無條件進位
-    const discount = Math.ceil(sum * 0.9);
-    discountEl.textContent = '九折後金額（90%）：NT$ ' + discount.toLocaleString();
-}
+        totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
 
+        const discount = Math.ceil(sum * 0.9);
+        discountEl.textContent = '九折後金額（90%）：NT$ ' + discount.toLocaleString();
+    }
 
     qtyInputs.forEach(input => {
         input.addEventListener('input', calculateTotal);
@@ -184,7 +190,7 @@ function calculateTotal() {
 
     function generateOrderId() {
         const now = new Date();
-        const date = now.toISOString().slice(0,10).replace(/-/g,"");
+        const date = now.toISOString().slice(0, 10).replace(/-/g, "");
         const rand = Math.floor(100 + Math.random() * 900);
         return "THAM-" + date + "-" + rand;
     }
@@ -194,6 +200,7 @@ function calculateTotal() {
         const phone = document.getElementById("phone").value.trim();
         const address = document.getElementById("address").value.trim();
         const last5 = document.getElementById("bank_last5").value.trim();
+        const note = document.getElementById("note").value.trim();
 
         if (!name || !phone || !address) {
             alert("請先完整填寫姓名、手機號碼與收件地址。");
@@ -206,61 +213,61 @@ function calculateTotal() {
         }
 
         const orderId = generateOrderId();
-const total = totalEl.textContent.replace(/[^\d]/g, "") || "0";
-const items = collectItems();
+        const items = collectItems();
 
-// 在送出前，用總金額重新計算九折金額（無條件進位）
-const discountValue = Math.ceil(Number(total) * 0.9);
+        const totalStr = totalEl.textContent.replace(/[^\d]/g, "") || "0";
+        const totalNum = Number(totalStr);
 
-const note = document.getElementById("note").value.trim();
+        if (!Number.isFinite(totalNum)) {
+            alert("金額計算異常（非數字），請重新整理頁面再試一次。");
+            return;
+        }
 
-const payload = {
-    orderId: orderId,
-    name: name,
-    phone: phone,
-    address: address,
-    total: totalNum,
-    bankLast5: last5,
-    items: items,
-    note: note   // ★ 新增：備註
-};
+        if (totalNum <= 0) {
+            if (!confirm("目前總金額為 0 元，確定要送出訂單嗎？")) {
+                return;
+            }
+        }
 
+        const payload = {
+            orderId: orderId,
+            name: name,
+            phone: phone,
+            address: address,
+            total: totalNum,
+            bankLast5: last5,
+            items: items,
+            note: note
+        };
 
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbwmBcRI63_nsjcSpEKi-DWH-ZsUxNR8xA5lD7taUczavCX_YiQzizTqO8rabLNoLiAthg/exec";
+        const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
 
-const scriptUrl = "https://script.google.com/macros/s/AKfycby0UtV679cJDu_HWjnBR_nP6c5apGHUyrxxvW93t6QmS29RQftOMfoMroO3HAxRlt8nzQ/exec"; // 保留你的 URL
-const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
-
-// 送出前先鎖定按鈕，避免重複點擊
-submitBtn.disabled = true;
-submitBtn.textContent = "送出中，請稍候…";
-
-fetch(urlWithParams, {
-    method: "GET"
-})
-.then(res => res.text())
-.then(text => {
-    if (text.trim() === "OK") {
-        alert("訂單送出成功！\n訂單編號：" + orderId);
-        // 成功後維持鎖定，避免重複送單
         submitBtn.disabled = true;
-        submitBtn.textContent = "已送出";
-    } else {
-        alert("訂單已送出，但伺服器回應異常：" + text);
-        // 回應異常：解鎖讓客戶可重試
-        submitBtn.disabled = false;
-        submitBtn.textContent = "送出訂單";
-    }
-})
-.catch(() => {
-    alert("訂單送出失敗，請稍後再試。");
-    // 發生錯誤：解鎖讓客戶可重試
-    submitBtn.disabled = false;
-    submitBtn.textContent = "送出訂單";
-});
+        submitBtn.textContent = "送出中，請稍候…";
 
-
-    
+        fetch(urlWithParams, { method: "GET" })
+            .then(res => res.text())
+            .then(text => {
+                if (text.trim() === "OK") {
+                    alert("訂單送出成功！\n訂單編號：" + orderId);
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "已送出";
+                } else {
+                    alert("訂單已送出，但伺服器回應異常：" + text);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "送出訂單";
+                }
+            })
+            .catch(() => {
+                alert("訂單送出失敗，請稍後再試。");
+                submitBtn.disabled = false;
+                submitBtn.textContent = "送出訂單";
+            });
     }
+
+    // 載入時先跑一次計算
+    calculateTotal();
 </script>
 
 </body>
