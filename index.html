@@ -36,7 +36,7 @@ input.qty {
 </head>
 <body>
 
-<h2>台灣農畜禮盒預購單（即時計算）</h2>
+<h2>台畜禮盒預購單</h2>
 
 <div class="item">
     <label for="name">姓名</label>
@@ -64,6 +64,12 @@ input.qty {
            placeholder="請輸入 5 碼數字"
            required>
 </div>
+        
+    <div class="item">
+    <label for="note">備註（選填）</label>
+    <textarea id="note" rows="3" style="width:100%; max-width:320px; padding:10px 14px; font-size:16px; box-sizing:border-box;" placeholder="若有特殊需求或備註可填寫在此"></textarea>
+</div>
+
 
 <hr>
 
@@ -206,18 +212,22 @@ const items = collectItems();
 // 在送出前，用總金額重新計算九折金額（無條件進位）
 const discountValue = Math.ceil(Number(total) * 0.9);
 
+const note = document.getElementById("note").value.trim();
+
 const payload = {
     orderId: orderId,
     name: name,
     phone: phone,
     address: address,
-    total: total,
+    total: totalNum,
     bankLast5: last5,
-    items: items
+    items: items,
+    note: note   // ★ 新增：備註
 };
 
 
-const scriptUrl = "https://script.google.com/macros/s/AKfycbzZEEqH16u4Y83Qy23yDRyclUE-fu1qEvJaOmOu5eBxwDb7RPMoi4ZyAh5AuPK2t0cGpw/exec"; // 保留你的 URL
+
+const scriptUrl = "https://script.google.com/macros/s/AKfycby0UtV679cJDu_HWjnBR_nP6c5apGHUyrxxvW93t6QmS29RQftOMfoMroO3HAxRlt8nzQ/exec"; // 保留你的 URL
 const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
 
 // 送出前先鎖定按鈕，避免重複點擊
