@@ -47,6 +47,18 @@ input.qty {
     <input type="text" id="address" required>
 </div>
 
+<div class="item">
+    <label>匯款帳號後五碼（必填，僅限數字）</label>
+    <input type="text"
+           id="bank_last5"
+           class="numeric"
+           maxlength="5"
+           inputmode="numeric"
+           pattern="[0-9]{5}"
+           placeholder="請輸入 5 碼數字"
+           required>
+</div>
+
 <hr>
 
 <div class="item">
@@ -98,6 +110,7 @@ input.qty {
 <hr>
 
 <div id="total">總金額：NT$ 0</div>
+<div id="discount">九折後金額（90%）：NT$ 0</div>
 
 <hr>
 
@@ -108,20 +121,8 @@ input.qty {
         台畜銀行帳號：<strong>5272-01-0866-130</strong>
     </p>
     <p style="color: #b00000;">
-        請於匯款完成後填寫以下欄位，方便我們對帳
+        請於匯款完成後填寫上方欄位，方便我們對帳
     </p>
-</div>
-
-<div class="item">
-    <label>匯款帳號後五碼（必填，僅限數字）</label>
-<input type="text"
-       id="bank_last5"
-       class="numeric"
-       maxlength="5"
-       inputmode="numeric"
-       pattern="[0-9]{5}"
-       placeholder="請輸入 5 碼數字"
-       required>
 </div>
 
 <hr>
@@ -131,20 +132,26 @@ input.qty {
 </button>
 
 <script>
-    const qtyInputs = document.querySelectorAll('.qty');
-    const totalEl = document.getElementById('total');
-    const submitBtn = document.getElementById('submitBtn');
+const qtyInputs = document.querySelectorAll('.qty');
+const totalEl = document.getElementById('total');
+const discountEl = document.getElementById('discount');
+const submitBtn = document.getElementById('submitBtn');
 
+function calculateTotal() {
+    let sum = 0;
+    qtyInputs.forEach(input => {
+        const price = parseInt(input.dataset.price, 10);
+        const qty = parseInt(input.value, 10) || 0;
+        sum += price * qty;
+    });
 
-    function calculateTotal() {
-        let sum = 0;
-        qtyInputs.forEach(input => {
-            const price = parseInt(input.dataset.price, 10);
-            const qty = parseInt(input.value, 10) || 0;
-            sum += price * qty;
-        });
-        totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
-    }
+    totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
+
+    // 九折後金額（90%），小數無條件進位
+    const discount = Math.ceil(sum * 0.9);
+    discountEl.textContent = '九折後金額（90%）：NT$ ' + discount.toLocaleString();
+}
+
 
     qtyInputs.forEach(input => {
         input.addEventListener('input', calculateTotal);
