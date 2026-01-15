@@ -26,6 +26,12 @@ input.qty {
         button {
             cursor: pointer;
         }
+.discount-price {
+    color: #cc0000;       /* 深紅色 */
+    font-weight: bold;    /* 粗體 */
+    font-size: 1.25em;    /* 放大 25% */
+}
+        
     </style>
 </head>
 <body>
@@ -110,7 +116,8 @@ input.qty {
 <hr>
 
 <div id="total">總金額：NT$ 0</div>
-<div id="discount">九折後金額（90%）：NT$ 0</div>
+<div id="discount" class="discount-price">九折後金額（90%）：NT$ 0</div>
+
 
 <hr>
 
@@ -207,6 +214,7 @@ const payload = {
     phone: phone,
     address: address,
     total: total,
+    discount: discount,   // ★ 新增：九折金額
     bankLast5: last5,
     items: items
 };
