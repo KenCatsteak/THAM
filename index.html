@@ -200,25 +200,23 @@ function calculateTotal() {
         }
 
         const orderId = generateOrderId();
-        const total = totalEl.textContent.replace(/[^\d]/g, "") || "0";
-        const items = collectItems();
+const total = totalEl.textContent.replace(/[^\d]/g, "") || "0";
+const items = collectItems();
+
 // 在送出前，用總金額重新計算九折金額（無條件進位）
 const discountValue = Math.ceil(Number(total) * 0.9);
-        if (!items) {
-            if (!confirm("您尚未選擇任何禮盒，確定要送出訂單嗎？")) {
-                return;
-        
-    
+
 const payload = {
     orderId: orderId,
     name: name,
     phone: phone,
     address: address,
     total: total,
-    discount: discountValue,   // ★ 新增：九折金額
+    discount: discountValue,   // ★ 改用剛算好的 discountValue
     bankLast5: last5,
     items: items
 };
+
 
 const scriptUrl = "https://script.google.com/macros/s/AKfycbwNUE4NFgdh2f4FWcDo8D2Io2hIrG86kyvUhLJDqcDGtjJVBOwOqYnh81rtZQk-02s7zw/exec"; // 保留你的 URL
 const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
