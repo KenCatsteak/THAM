@@ -202,19 +202,20 @@ function calculateTotal() {
         const orderId = generateOrderId();
         const total = totalEl.textContent.replace(/[^\d]/g, "") || "0";
         const items = collectItems();
-
+// 在送出前，用總金額重新計算九折金額（無條件進位）
+const discountValue = Math.ceil(Number(total) * 0.9);
         if (!items) {
             if (!confirm("您尚未選擇任何禮盒，確定要送出訂單嗎？")) {
                 return;
-            }
-        }
+        
+    
 const payload = {
     orderId: orderId,
     name: name,
     phone: phone,
     address: address,
     total: total,
-    discount: discount,   // ★ 新增：九折金額
+    discount: discountValue,   // ★ 新增：九折金額
     bankLast5: last5,
     items: items
 };
