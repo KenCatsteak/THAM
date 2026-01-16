@@ -2,273 +2,497 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>台畜禮盒預購單</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>台畜年節禮盒預購單</title>
     <style>
-        body { font-family: Arial, "Microsoft JhengHei", sans-serif; max-width: 700px; margin: 20px auto; line-height: 1.6; }
-        h2 { text-align: center; margin-bottom: 20px; }
-        .item { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-input[type="text"], input[type="number"] {
-    padding: 10px 14px;
-    width: 100%;
-    max-width: 320px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap");
 
-/* 品項數量欄位：寬一點，橫向排列好看 */
-input.qty {
-    max-width: 120px;
-    display: inline-block;
-}
-
-        #total { font-weight: bold; font-size: 1.3em; margin-top: 20px; }
-        button {
-            cursor: pointer;
+        :root {
+            --bg: #f7f1e9;
+            --bg-accent: #e9dfd0;
+            --card: #fffaf4;
+            --ink: #2a1f16;
+            --muted: #6f5a46;
+            --accent: #c4552d;
+            --accent-strong: #9f3c20;
+            --outline: #e2d2c1;
+            --shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
         }
-.discount-price {
-    color: #cc0000;       /* 深紅色 */
-    font-weight: bold;    /* 粗體 */
-    font-size: 1.25em;    /* 放大 25% */
-}
-        
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Noto Serif TC", "Songti TC", serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(196, 85, 45, 0.12), transparent 40%),
+                radial-gradient(circle at 90% 0%, rgba(111, 90, 70, 0.15), transparent 45%),
+                linear-gradient(160deg, var(--bg), var(--bg-accent));
+        }
+
+        .page {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 28px 18px 60px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: clamp(26px, 4vw, 36px);
+            margin: 0 0 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--outline);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .card + .card {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            margin: 0 0 16px;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .grid.two {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--ink);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--outline);
+            font-size: 16px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: 2px solid rgba(196, 85, 45, 0.3);
+            border-color: var(--accent);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .product {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            gap: 12px;
+            align-items: center;
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid var(--outline);
+            padding: 14px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            color: var(--accent-strong);
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .qty {
+            width: 100%;
+            text-align: center;
+        }
+
+        .summary {
+            display: grid;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .summary strong {
+            font-size: 20px;
+        }
+
+        .discount-price {
+            color: var(--accent-strong);
+            font-weight: 700;
+        }
+
+        .pay-info {
+            background: rgba(196, 85, 45, 0.08);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        .pay-info strong {
+            font-weight: 700;
+        }
+
+        .submit-area {
+            margin-top: 18px;
+            display: grid;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            border-radius: 14px;
+            padding: 14px 16px;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            box-shadow: 0 10px 24px rgba(196, 85, 45, 0.35);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                padding: 22px 14px 48px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .product {
+                grid-template-columns: 1fr 86px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="page">
+        <header>
+            <h1>台畜年節禮盒預購單</h1>
+            <div class="subtitle">訂購資訊填寫，送出後會收到編號</div>
+        </header>
 
-<h2>台畜禮盒預購單</h2>
+        <section class="card">
+            <h2 class="section-title">收件資訊</h2>
+            <div class="grid two">
+                <div>
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div>
+                    <label for="phone">聯絡電話</label>
+                    <input type="text" id="phone" required inputmode="tel">
+                </div>
+                <div>
+                    <label for="address">收件地址</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div>
+                    <label for="bank_last5">匯款帳號後五碼（必填）</label>
+                    <input
+                        type="text"
+                        id="bank_last5"
+                        class="numeric"
+                        maxlength="5"
+                        inputmode="numeric"
+                        pattern="[0-9]{5}"
+                        placeholder="請輸入 5 位數字"
+                        required
+                    >
+                    <div class="hint">僅限數字，用於對帳。</div>
+                </div>
+            </div>
 
-<div class="item">
-    <label for="name">姓名</label>
-    <input type="text" id="name" required>
-</div>
+            <div style="margin-top: 16px;">
+                <label for="note">備註（選填）</label>
+                <textarea id="note" placeholder="特殊需求或備註請填寫在此"></textarea>
+            </div>
+        </section>
 
-<div class="item">
-    <label for="phone">手機號碼</label>
-    <input type="text" id="phone" required>
-</div>
+        <section class="card">
+            <h2 class="section-title">禮盒品項</h2>
+            <div class="grid">
+                <div class="product">
+                    <div>
+                        <div class="product-name">A. 燻烤前腿禮盒 3.7kg</div>
+                        <div class="product-price">NT$ 3,680</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="3680" data-name="燻烤前腿禮盒 3.7kg" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label for="address">收件地址</label>
-    <input type="text" id="address" required>
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">B. 燻烤前腿禮盒 2.3kg</div>
+                        <div class="product-price">NT$ 2,180</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="2180" data-name="燻烤前腿禮盒 2.3kg" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label>匯款帳號後五碼（必填，僅限數字）</label>
-    <input type="text"
-           id="bank_last5"
-           class="numeric"
-           maxlength="5"
-           inputmode="numeric"
-           pattern="[0-9]{5}"
-           placeholder="請輸入 5 碼數字"
-           required>
-</div>
-        
-    <div class="item">
-    <label for="note">備註（選填）</label>
-    <textarea id="note" rows="3" style="width:100%; max-width:320px; padding:10px 14px; font-size:16px; box-sizing:border-box;" placeholder="若有特殊需求或備註可填寫在此"></textarea>
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">C. 醺藏盛饌禮盒 (燻烤前腿2.3kg+智利施赫頂級陳年紅酒750ml)</div>
+                        <div class="product-price">NT$ 3,180</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="3180" data-name="醺藏盛饌禮盒 (燻烤前腿2.3kg+智利施赫頂級陳年紅酒750ml) $3180" min="0" value="0" inputmode="numeric">
+                </div>
 
+                <div class="product">
+                    <div>
+                        <div class="product-name">D. 烏骨珍饌禮盒（台酒烏雞酒+黑蒜元氣雞湯）</div>
+                        <div class="product-price">NT$ 1,980</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="1980" data-name="烏骨珍饌禮盒（台酒烏雞酒+黑蒜元氣雞湯） $1980" min="0" value="0" inputmode="numeric">
+                </div>
 
-<hr>
+                <div class="product">
+                    <div>
+                        <div class="product-name">E. 谷川臻味禮盒（谷川岳500g+智利施赫頂級陳年紅酒750ml）</div>
+                        <div class="product-price">NT$ 1,880</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="1880" data-name="谷川臻味禮盒（谷川岳500g+智利施赫頂級陳年紅酒750ml） $1880" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label>A. 燻烤前腿禮盒 3.7kg $3680</label>
-    <input type="number" class="qty numeric" data-price="3680" data-name="燻烤前腿禮盒 3.7kg" min="0" value="0" inputmode="numeric">
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">F. 三福肉酥禮盒 (原味肉酥*2 海苔肉酥*1) </div>
+                        <div class="product-price">NT$ 1,180</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="1180" data-name="三福肉酥禮盒 (原味肉酥*2 海苔肉酥*1) $1180" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label>B. 燻烤前腿禮盒 2.3kg $2180</label>
-    <input type="number" class="qty numeric" data-price="2180" data-name="燻烤前腿禮盒 2.3kg" min="0" value="0" inputmode="numeric">
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">G. 聚味好年禮盒 (原味肉酥+海苔肉酥+肝腸+臘腸)</div>
+                        <div class="product-price">NT$ 1,280</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="1280" data-name="聚味好年禮盒 (原味肉酥+海苔肉酥+肝腸+臘腸) $1280" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label>C. 醺藏盛饌禮盒 (燻烤前腿2.3kg+智利施赫頂級陳年紅酒750ml) $3180</label>
-    <input type="number" class="qty numeric" data-price="3180" data-name="醺藏盛饌禮盒（含紅酒）" min="0" value="0" inputmode="numeric">
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">H. 肉酥禮盒 (原味肉酥+海苔肉酥) $780</div>
+                        <div class="product-price">NT$ 780</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="780" data-name="肉酥禮盒 (原味肉酥+海苔肉酥) $780" min="0" value="0" inputmode="numeric">
+                </div>
 
-<div class="item">
-    <label>D. 烏骨珍饌禮盒（台酒烏雞酒+黑蒜元氣雞湯） $1980</label>
-    <input type="number" class="qty numeric" data-price="1980" data-name="烏骨珍饌禮盒（烏雞酒+湯）" min="0" value="0" inputmode="numeric">
-</div>
+                <div class="product">
+                    <div>
+                        <div class="product-name">I. 雙饗肉乾禮盒(杏仁肉片(原味+海苔+黑胡椒))</div>
+                        <div class="product-price">NT$ 880</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="880" data-name="雙饗肉乾禮盒(杏仁肉片(原味+海苔+黑胡椒)) $880" min="0" value="0" inputmode="numeric">
+                </div>
+            </div>
+        </section>
 
-<div class="item">
-    <label>E. 谷川臻味禮盒（谷川岳500g+智利施赫頂級陳年紅酒750ml） $1880</label>
-    <input type="number" class="qty numeric" data-price="1880" data-name="谷川臻味禮盒（含紅酒）" min="0" value="0" inputmode="numeric">
-</div>
+        <section class="card">
+            <h2 class="section-title">金額試算</h2>
+            <div class="summary">
+                <div id="total"><strong>總金額</strong> NT$ 0</div>
+                <div id="discount" class="discount-price">九折後金額（90%） NT$ 0</div>
+            </div>
+        </section>
 
-<div class="item">
-    <label>F. 三福肉酥禮盒 (原味肉酥*2 海苔肉酥*1) $1180</label>
-    <input type="number" class="qty numeric" data-price="1180" data-name="三福肉酥禮盒" min="0" value="0" inputmode="numeric">
-</div>
+        <section class="card">
+            <h2 class="section-title">付款資訊</h2>
+            <div class="pay-info">
+                銀行代號：<strong>彰化銀行（009）</strong><br>
+                銀行帳號：<strong>5272-01-0866-130</strong>
+            </div>
+            <div class="hint" style="margin-top: 10px;">
+                請於匯款完成後填寫帳號後五碼，方便對帳確認。
+            </div>
+        </section>
 
-<div class="item">
-    <label>G. 聚味好年禮盒 (原味肉酥+海苔肉酥+肝腸+臘腸) $1280</label>
-    <input type="number" class="qty numeric" data-price="1280" data-name="聚味好年禮盒" min="0" value="0" inputmode="numeric">
-</div>
+        <div class="submit-area">
+            <button id="submitBtn" onclick="submitOrder()">送出訂單</button>
+        </div>
+    </div>
 
-<div class="item">
-    <label>H. 肉酥禮盒 (原味肉酥+海苔肉酥) $780</label>
-    <input type="number" class="qty numeric" data-price="780" data-name="肉酥禮盒" min="0" value="0" inputmode="numeric">
-</div>
+    <script>
+        const qtyInputs = document.querySelectorAll(".qty");
+        const totalEl = document.getElementById("total");
+        const discountEl = document.getElementById("discount");
+        const submitBtn = document.getElementById("submitBtn");
 
-<div class="item">
-    <label>I. 雙饗肉乾禮盒(杏仁肉片(原味+海苔+黑胡椒)) $880</label>
-    <input type="number" class="qty numeric" data-price="880" data-name="雙饗肉乾禮盒" min="0" value="0" inputmode="numeric">
-</div>
-
-
-<hr>
-
-<div id="total">總金額：NT$ 0</div>
-<div id="discount" class="discount-price">九折後金額（90%）：NT$ 0</div>
-
-
-<hr>
-
-<div class="item">
-    <h3>匯款資訊</h3>
-    <p>
-        銀行代號：<strong>彰化銀行（009）</strong><br>
-        銀行帳號：<strong>5272-01-0866-130</strong>
-    </p>
-    <p style="color: #b00000;">
-        請於匯款完成後填寫上方欄位，方便我們對帳
-    </p>
-</div>
-
-<hr>
-
-<button id="submitBtn" onclick="submitOrder()" style="padding:12px 20px;font-size:16px;">
-    送出訂單
-</button>
-
-<script>
-    const qtyInputs = document.querySelectorAll('.qty');
-    const totalEl = document.getElementById('total');
-    const discountEl = document.getElementById('discount');
-    const submitBtn = document.getElementById('submitBtn');
-
-    // 僅允許數字輸入的欄位
-    const numericInputs = document.querySelectorAll('.numeric');
-    numericInputs.forEach(input => {
-        input.addEventListener('input', function () {
-            this.value = this.value.replace(/\D/g, '');
+        const numericInputs = document.querySelectorAll(".numeric");
+        numericInputs.forEach((input) => {
+            input.addEventListener("input", function () {
+                this.value = this.value.replace(/\D/g, "");
+            });
         });
-    });
 
-    function calculateTotal() {
-        let sum = 0;
-        qtyInputs.forEach(input => {
-            const price = parseInt(input.dataset.price, 10);
-            const qty = parseInt(input.value, 10) || 0;
-            sum += price * qty;
-        });
+        function calculateTotal() {
+            let sum = 0;
+            qtyInputs.forEach((input) => {
+                const price = parseInt(input.dataset.price, 10);
+                const qty = parseInt(input.value, 10) || 0;
+                sum += price * qty;
+            });
 
-        totalEl.textContent = '總金額：NT$ ' + sum.toLocaleString();
-
-        const discount = Math.ceil(sum * 0.9);
-        discountEl.textContent = '九折後金額（90%）：NT$ ' + discount.toLocaleString();
-    }
-
-    qtyInputs.forEach(input => {
-        input.addEventListener('input', calculateTotal);
-    });
-
-    function collectItems() {
-        const items = [];
-        document.querySelectorAll(".qty").forEach(input => {
-            const qty = parseInt(input.value, 10);
-            if (qty > 0) {
-                const name = input.dataset.name;
-                items.push(name + " x" + qty);
-            }
-        });
-        return items.join("\n");
-    }
-
-    function generateOrderId() {
-        const now = new Date();
-        const date = now.toISOString().slice(0, 10).replace(/-/g, "");
-        const rand = Math.floor(100 + Math.random() * 900);
-        return "THAM-" + date + "-" + rand;
-    }
-
-    function submitOrder() {
-        const name = document.getElementById("name").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const address = document.getElementById("address").value.trim();
-        const last5 = document.getElementById("bank_last5").value.trim();
-        const note = document.getElementById("note").value.trim();
-
-        if (!name || !phone || !address) {
-            alert("請先完整填寫姓名、手機號碼與收件地址。");
-            return;
+            totalEl.textContent = "總金額 NT$ " + sum.toLocaleString();
+            const discount = Math.ceil(sum * 0.9);
+            discountEl.textContent = "九折後金額（90%） NT$ " + discount.toLocaleString();
         }
 
-        if (!/^\d{5}$/.test(last5)) {
-            alert("請正確填寫匯款帳號後五碼（5 位數字）。");
-            return;
+        qtyInputs.forEach((input) => {
+            input.addEventListener("input", calculateTotal);
+        });
+
+        function collectItems() {
+            const items = [];
+            document.querySelectorAll(".qty").forEach((input) => {
+                const qty = parseInt(input.value, 10);
+                if (qty > 0) {
+                    const name = input.dataset.name;
+                    items.push(name + " x" + qty);
+                }
+            });
+            return items.join("\n");
         }
 
-        const orderId = generateOrderId();
-        const items = collectItems();
-
-        const totalStr = totalEl.textContent.replace(/[^\d]/g, "") || "0";
-        const totalNum = Number(totalStr);
-
-        if (!Number.isFinite(totalNum)) {
-            alert("金額計算異常（非數字），請重新整理頁面再試一次。");
-            return;
+        function generateOrderId() {
+            const now = new Date();
+            const date = now.toISOString().slice(0, 10).replace(/-/g, "");
+            const rand = Math.floor(100 + Math.random() * 900);
+            return "THAM-" + date + "-" + rand;
         }
 
-        if (totalNum <= 0) {
-            if (!confirm("目前總金額為 0 元，確定要送出訂單嗎？")) {
+        function submitOrder() {
+            const name = document.getElementById("name").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const address = document.getElementById("address").value.trim();
+            const last5 = document.getElementById("bank_last5").value.trim();
+            const note = document.getElementById("note").value.trim();
+
+            if (!name || !phone || !address) {
+                alert("請完整填寫姓名、聯絡電話、收件地址。");
                 return;
             }
-        }
 
-        const payload = {
-            orderId: orderId,
-            name: name,
-            phone: phone,
-            address: address,
-            total: totalNum,
-            bankLast5: last5,
-            items: items,
-            note: note
-        };
+            if (!/^\d{5}$/.test(last5)) {
+                alert("請正確填寫匯款帳號後五碼（5 位數字）。");
+                return;
+            }
 
-        const scriptUrl = "https://script.google.com/macros/s/AKfycby0UtV679cJDu_HWjnBR_nP6c5apGHUyrxxvW93t6QmS29RQftOMfoMroO3HAxRlt8nzQ/exec";
-        const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
+            const orderId = generateOrderId();
+            const items = collectItems();
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = "送出中，請稍候…";
+            const totalStr = totalEl.textContent.replace(/[^\d]/g, "") || "0";
+            const totalNum = Number(totalStr);
 
-        fetch(urlWithParams, { method: "GET" })
-            .then(res => res.text())
-            .then(text => {
-                if (text.trim() === "OK") {
-                    alert("訂單送出成功！\n訂單編號：" + orderId);
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = "已送出";
-                } else {
-                    alert("訂單已送出，但伺服器回應異常：" + text);
+            if (!Number.isFinite(totalNum)) {
+                alert("總金額計算異常，請重新整理頁面再試一次。");
+                return;
+            }
+
+            if (totalNum <= 0) {
+                if (!confirm("總金額為 0，確定要送出訂單嗎？")) {
+                    return;
+                }
+            }
+
+            const payload = {
+                orderId: orderId,
+                name: name,
+                phone: phone,
+                address: address,
+                total: totalNum,
+                bankLast5: last5,
+                items: items,
+                note: note
+            };
+
+            const scriptUrl = "https://script.google.com/macros/s/AKfycby0UtV679cJDu_HWjnBR_nP6c5apGHUyrxxvW93t6QmS29RQftOMfoMroO3HAxRlt8nzQ/exec";
+            const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "送出中，請稍候...";
+
+            fetch(urlWithParams, { method: "GET" })
+                .then((res) => res.text())
+                .then((text) => {
+                    if (text.trim() === "OK") {
+                        alert("訂單送出成功！\n訂單編號：" + orderId);
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = "已送出";
+                    } else {
+                        alert("訂單已送出，但回傳異常：" + text);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "送出訂單";
+                    }
+                })
+                .catch(() => {
+                    alert("訂單送出失敗，請稍後再試。");
                     submitBtn.disabled = false;
                     submitBtn.textContent = "送出訂單";
-                }
-            })
-            .catch(() => {
-                alert("訂單送出失敗，請稍後再試。");
-                submitBtn.disabled = false;
-                submitBtn.textContent = "送出訂單";
-            });
-    }
+                });
+        }
 
-    // 載入時先跑一次計算
-    calculateTotal();
-</script>
-
+        calculateTotal();
+    </script>
 </body>
 </html>
