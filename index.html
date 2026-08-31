@@ -37,22 +37,9 @@
             padding: 28px 18px 60px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        h1 {
-            font-size: clamp(26px, 4vw, 36px);
-            margin: 0 0 10px;
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            color: var(--muted);
-            font-size: 15px;
-            letter-spacing: 1px;
-        }
+        header { text-align: center; margin-bottom: 28px; }
+        h1 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 10px; letter-spacing: 2px; }
+        .subtitle { color: var(--muted); font-size: 15px; letter-spacing: 1px; }
 
         .card {
             background: var(--card);
@@ -81,26 +68,17 @@
             flex: 0 0 10px;
         }
 
-        .grid {
-            display: grid;
-            gap: 14px;
-        }
-
-        .grid.two {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
+        .grid { display: grid; gap: 14px; }
+        .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .full { grid-column: 1 / -1; }
 
         label {
             display: block;
             font-weight: 600;
             margin-bottom: 6px;
-            color: var(--ink);
         }
 
-        input,
-        textarea {
+        input, textarea {
             width: 100%;
             min-height: 48px;
             padding: 12px 14px;
@@ -111,22 +89,12 @@
             color: var(--ink);
         }
 
-        input:focus,
-        textarea:focus {
+        input:focus, textarea:focus {
             outline: 2px solid rgba(196, 85, 45, 0.3);
             border-color: var(--accent);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .hint {
-            color: var(--muted);
-            font-size: 13px;
-            margin-top: 6px;
-        }
+        textarea { resize: vertical; min-height: 100px; }
 
         .product {
             display: grid;
@@ -146,11 +114,23 @@
             overflow-wrap: anywhere;
         }
 
-        .product-price {
-            color: var(--accent-strong);
-            font-weight: 700;
-            font-size: 14px;
+        .price-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            align-items: baseline;
             margin-top: 5px;
+        }
+
+        .original-price {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .promo-price {
+            color: #c62828;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         .qty {
@@ -159,32 +139,11 @@
             font-weight: 600;
         }
 
-        .summary {
-            display: grid;
-            gap: 10px;
-        }
-
         #total {
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 700;
+            color: var(--accent-strong);
         }
-
-        .discount-price {
-            color: #c62828;
-            font-weight: 700;
-            font-size: 23px;
-        }
-
-        .pay-info {
-            background: rgba(196, 85, 45, 0.08);
-            border: 1px solid rgba(196, 85, 45, 0.18);
-            border-radius: 14px;
-            padding: 16px;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .pay-info strong { font-weight: 700; }
 
         .submit-area {
             margin-top: 20px;
@@ -202,7 +161,6 @@
             background: linear-gradient(135deg, var(--accent), var(--accent-strong));
             box-shadow: 0 10px 24px rgba(196, 85, 45, 0.35);
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         button:disabled {
@@ -211,16 +169,13 @@
             box-shadow: none;
         }
 
-        button:hover:not(:disabled) { transform: translateY(-1px); }
-
         @media (max-width: 640px) {
             .page { padding: 20px 12px 44px; }
             .card { padding: 17px; border-radius: 15px; }
             .grid.two { grid-template-columns: 1fr; }
             .product { grid-template-columns: minmax(0, 1fr) 92px; gap: 10px; padding: 13px; }
             .product-name { font-size: 14px; }
-            .qty { padding-left: 8px; padding-right: 8px; }
-            .discount-price { font-size: 21px; }
+            .promo-price { display: block; width: 100%; }
         }
     </style>
 </head>
@@ -228,7 +183,7 @@
     <div class="page">
         <header>
             <h1>台畜中秋禮盒預購單</h1>
-            <div class="subtitle">訂購資訊填寫，送出後會收到訂單編號</div>
+            <div class="subtitle">請填寫訂購資訊並選擇禮盒數量</div>
         </header>
 
         <section class="card">
@@ -238,23 +193,14 @@
                     <label for="name">姓名</label>
                     <input type="text" id="name" autocomplete="name" required>
                 </div>
-
                 <div>
                     <label for="phone">聯絡電話</label>
                     <input type="text" id="phone" inputmode="tel" autocomplete="tel" required>
                 </div>
-
                 <div class="full">
                     <label for="address">收件地址</label>
                     <input type="text" id="address" autocomplete="street-address" required>
                 </div>
-
-                <div>
-                    <label for="bank_last5">匯款帳號後五碼</label>
-                    <input type="text" id="bank_last5" class="numeric" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" placeholder="請輸入 5 碼數字" required>
-                    <div class="hint">僅限輸入 5 位數字，方便核對款項。</div>
-                </div>
-
                 <div class="full">
                     <label for="note">備註（選填）</label>
                     <textarea id="note" placeholder="特殊需求或備註請填寫在此"></textarea>
@@ -265,103 +211,92 @@
         <section class="card">
             <h2 class="section-title">禮盒品項</h2>
             <div class="grid">
+
                 <div class="product">
                     <div>
                         <div class="product-name">A. 燻烤前腿禮盒 3.7kg</div>
-                        <div class="product-price">NT$ 3,680</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 3,680</span><span class="promo-price">九折 NT$ 3,312</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="3680" data-name="燻烤前腿禮盒 3.7kg" min="0" step="1" value="0" inputmode="numeric" aria-label="燻烤前腿禮盒 3.7kg 數量">
+                    <input type="number" class="qty numeric" data-price="3312" data-name="A. 燻烤前腿禮盒 3.7kg" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">B. 燻烤前腿禮盒 2.3kg</div>
-                        <div class="product-price">NT$ 2,180</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 2,180</span><span class="promo-price">九折 NT$ 1,962</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="2180" data-name="燻烤前腿禮盒 2.3kg" min="0" step="1" value="0" inputmode="numeric" aria-label="燻烤前腿禮盒 2.3kg 數量">
+                    <input type="number" class="qty numeric" data-price="1962" data-name="B. 燻烤前腿禮盒 2.3kg" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">C. 醺藏盛饌禮盒（燻烤前腿 2.3kg＋智利施赫頂級陳年紅酒 750ml）</div>
-                        <div class="product-price">NT$ 3,180</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 3,180</span><span class="promo-price">九折 NT$ 2,862</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="3180" data-name="醺藏盛饌禮盒（燻烤前腿2.3kg＋智利施赫頂級陳年紅酒750ml）" min="0" step="1" value="0" inputmode="numeric" aria-label="醺藏盛饌禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="2862" data-name="C. 醺藏盛饌禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">D. 雙拼香腸禮盒（原味香腸 500g／蒜味香腸 500g／高粱香腸 500g）</div>
-                        <div class="product-price">NT$ 600</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 600</span><span class="promo-price">九折 NT$ 540</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="600" data-name="雙拼香腸禮盒（原味香腸500g／蒜味香腸500g／高粱香腸500g）" min="0" step="1" value="0" inputmode="numeric" aria-label="雙拼香腸禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="540" data-name="D. 雙拼香腸禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">E. 谷川臻味禮盒（谷川岳 500g＋智利施赫頂級陳年紅酒 750ml）</div>
-                        <div class="product-price">NT$ 1,880</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 1,880</span><span class="promo-price">九折 NT$ 1,692</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="1880" data-name="谷川臻味禮盒（谷川岳500g＋智利施赫頂級陳年紅酒750ml）" min="0" step="1" value="0" inputmode="numeric" aria-label="谷川臻味禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="1692" data-name="E. 谷川臻味禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">F. 三福肉酥禮盒（原味肉酥×2＋海苔肉酥×1）</div>
-                        <div class="product-price">NT$ 1,180</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 1,180</span><span class="promo-price">現場優惠價 NT$ 1,050</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="1180" data-name="三福肉酥禮盒（原味肉酥×2＋海苔肉酥×1）" min="0" step="1" value="0" inputmode="numeric" aria-label="三福肉酥禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="1050" data-name="F. 三福肉酥禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">H. 肉酥禮盒（原味肉酥＋海苔肉酥）</div>
-                        <div class="product-price">NT$ 780</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 780</span><span class="promo-price">現場優惠價 NT$ 700</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="780" data-name="肉酥禮盒（原味肉酥＋海苔肉酥）" min="0" step="1" value="0" inputmode="numeric" aria-label="肉酥禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="700" data-name="H. 肉酥禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">I. 雙饗肉乾禮盒（杏仁肉片：原味＋海苔＋黑胡椒）</div>
-                        <div class="product-price">NT$ 880</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 880</span><span class="promo-price">現場優惠價 NT$ 700</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="880" data-name="雙饗肉乾禮盒（杏仁肉片：原味＋海苔＋黑胡椒）" min="0" step="1" value="0" inputmode="numeric" aria-label="雙饗肉乾禮盒 數量">
+                    <input type="number" class="qty numeric" data-price="700" data-name="I. 雙饗肉乾禮盒" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">J. 乾杯×台畜海陸饗宴組（內容物詳見現場 DM）</div>
-                        <div class="product-price">NT$ 1,999</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 1,999</span><span class="promo-price">九折 NT$ 1,800</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="1999" data-name="乾杯×台畜海陸饗宴組" min="0" step="1" value="0" inputmode="numeric" aria-label="乾杯台畜海陸饗宴組 數量">
+                    <input type="number" class="qty numeric" data-price="1800" data-name="J. 乾杯×台畜海陸饗宴組" min="0" step="1" value="0" inputmode="numeric">
                 </div>
 
                 <div class="product">
                     <div>
                         <div class="product-name">K. 乾杯×台畜旗艦極炙組（內容物詳見現場 DM）</div>
-                        <div class="product-price">NT$ 2,999</div>
+                        <div class="price-row"><span class="original-price">原價 NT$ 2,999</span><span class="promo-price">九折 NT$ 2,700</span></div>
                     </div>
-                    <input type="number" class="qty numeric" data-price="2999" data-name="乾杯×台畜旗艦極炙組" min="0" step="1" value="0" inputmode="numeric" aria-label="乾杯台畜旗艦極炙組 數量">
+                    <input type="number" class="qty numeric" data-price="2700" data-name="K. 乾杯×台畜旗艦極炙組" min="0" step="1" value="0" inputmode="numeric">
                 </div>
             </div>
         </section>
 
         <section class="card">
             <h2 class="section-title">金額試算</h2>
-            <div class="summary">
-                <div id="total">總金額 NT$ 0</div>
-                <div id="discount" class="discount-price">九折後金額（90%） NT$ 0</div>
-            </div>
-        </section>
-
-        <section class="card">
-            <h2 class="section-title">匯款資訊</h2>
-            <div class="pay-info">
-                銀行：<strong>彰化銀行（009）</strong><br>
-                帳號：<strong>5272-01-0866-130</strong><br>
-                完成匯款後，請確認上方已填寫匯款帳號後五碼。
-            </div>
+            <div id="total">總金額 NT$ 0</div>
         </section>
 
         <div class="submit-area">
@@ -372,7 +307,6 @@
     <script>
         const qtyInputs = document.querySelectorAll(".qty");
         const totalEl = document.getElementById("total");
-        const discountEl = document.getElementById("discount");
         const submitBtn = document.getElementById("submitBtn");
 
         document.querySelectorAll(".numeric").forEach((input) => {
@@ -383,32 +317,22 @@
 
         function calculateTotal() {
             let sum = 0;
-
             qtyInputs.forEach((input) => {
                 const price = Number(input.dataset.price) || 0;
                 const qty = Math.max(0, parseInt(input.value, 10) || 0);
                 sum += price * qty;
             });
-
             totalEl.textContent = "總金額 NT$ " + sum.toLocaleString();
-            const discount = Math.ceil(sum * 0.9);
-            discountEl.textContent = "九折後金額（90%） NT$ " + discount.toLocaleString();
         }
 
-        qtyInputs.forEach((input) => {
-            input.addEventListener("input", calculateTotal);
-        });
+        qtyInputs.forEach((input) => input.addEventListener("input", calculateTotal));
 
         function collectItems() {
             const items = [];
-
             qtyInputs.forEach((input) => {
                 const qty = parseInt(input.value, 10) || 0;
-                if (qty > 0) {
-                    items.push(input.dataset.name + " x" + qty);
-                }
+                if (qty > 0) items.push(input.dataset.name + " x" + qty);
             });
-
             return items.join("\n");
         }
 
@@ -425,16 +349,10 @@
             const name = document.getElementById("name").value.trim();
             const phone = document.getElementById("phone").value.trim();
             const address = document.getElementById("address").value.trim();
-            const last5 = document.getElementById("bank_last5").value.trim();
             const note = document.getElementById("note").value.trim();
 
             if (!name || !phone || !address) {
                 alert("請完整填寫姓名、聯絡電話、收件地址。");
-                return;
-            }
-
-            if (!/^\d{5}$/.test(last5)) {
-                alert("請正確填寫匯款帳號後五碼（5 位數字）。");
                 return;
             }
 
@@ -457,17 +375,7 @@
             }
 
             const orderId = generateOrderId();
-
-            const payload = {
-                orderId,
-                name,
-                phone,
-                address,
-                total: totalNum,
-                bankLast5: last5,
-                items,
-                note
-            };
+            const payload = { orderId, name, phone, address, total: totalNum, items, note };
 
             const scriptUrl = "https://script.google.com/macros/s/AKfycbyvFdHA0ci3ur54tOOrYUrW9kMHxBwCTeK1iMSgVifKCAF5Bso3KDb5Zjk0D_IRV2ad/exec";
             const urlWithParams = scriptUrl + "?" + new URLSearchParams(payload).toString();
@@ -475,20 +383,17 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "送出中，請稍候...";
 
-            fetch(urlWithParams, {
-                method: "GET",
-                mode: "no-cors"
-            })
-            .then(() => {
-                alert("訂單已送出！\n訂單編號：" + orderId);
-                submitBtn.disabled = true;
-                submitBtn.textContent = "已送出";
-            })
-            .catch(() => {
-                alert("訂單送出失敗，請稍後再試。");
-                submitBtn.disabled = false;
-                submitBtn.textContent = "送出訂單";
-            });
+            fetch(urlWithParams, { method: "GET", mode: "no-cors" })
+                .then(() => {
+                    alert("訂單已送出！\n訂單編號：" + orderId);
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "已送出";
+                })
+                .catch(() => {
+                    alert("訂單送出失敗，請稍後再試。");
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "送出訂單";
+                });
         }
 
         calculateTotal();
