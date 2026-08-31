@@ -464,24 +464,22 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "送出中，請稍候...";
 
-            fetch(urlWithParams, { method: "GET" })
-                .then((res) => res.text())
-                .then((text) => {
-                    if (text.trim() === "OK") {
-                        alert("訂單送出成功！\n訂單編號：" + orderId);
-                        submitBtn.disabled = true;
-                        submitBtn.textContent = "已送出";
-                    } else {
-                        alert("訂單已送出，但回傳異常：" + text);
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = "送出訂單";
-                    }
-                })
-                .catch(() => {
-                    alert("訂單送出失敗，請稍後再試。");
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "送出訂單";
-                });
+          fetch(urlWithParams, {
+    method: "GET",
+    mode: "no-cors"
+})
+.then(() => {
+    alert("訂單送出成功！\n訂單編號：" + orderId);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "已送出";
+})
+.catch(() => {
+    alert("訂單送出失敗，請稍後再試。");
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "送出訂單";
+});
         }
 
         calculateTotal();
