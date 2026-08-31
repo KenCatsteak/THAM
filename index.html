@@ -249,20 +249,6 @@
                     <label for="address">收件地址</label>
                     <input type="text" id="address" required>
                 </div>
-                <div>
-                    <label for="bank_last5">匯款帳號後五碼（必填）</label>
-                    <input
-                        type="text"
-                        id="bank_last5"
-                        class="numeric"
-                        maxlength="5"
-                        inputmode="numeric"
-                        pattern="[0-9]{5}"
-                        placeholder="請輸入 5 位數字"
-                        required
-                    >
-                    <div class="hint">僅限數字，用於對帳。</div>
-                </div>
             </div>
 
             <div style="margin-top: 16px;">
@@ -336,8 +322,21 @@
                         <div class="product-price">NT$ 880</div>
                     </div>
                     <input type="number" class="qty numeric" data-price="880" data-name="雙饗肉乾禮盒(杏仁肉片(原味+海苔+黑胡椒)) $880" min="0" value="0" inputmode="numeric">
-                </div>
+
+                <div class="product">
+                    <div>
+                        <div class="product-name">J. 乾杯x台畜海陸饗宴組(內容物詳見現場DM)</div>
+                        <div class="product-price">NT$ 1,999</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="1999" data-name="乾杯x台畜海陸饗宴組 $1999" min="0" value="0" inputmode="numeric">
             </div>
+                    
+                <div class="product">
+                    <div>
+                        <div class="product-name">K. 乾杯x台畜旗艦極炙組(內容物詳見現場DM)</div>
+                        <div class="product-price">NT$ 2,999</div>
+                    </div>
+                    <input type="number" class="qty numeric" data-price="2999" data-name="乾杯x台畜旗艦極炙組(內容物詳見現場DM) $2999" min="0" value="0" inputmode="numeric">
         </section>
 
         <section class="card">
@@ -345,17 +344,6 @@
             <div class="summary">
                 <div id="total"><strong>總金額</strong> NT$ 0</div>
                 <div id="discount" class="discount-price">九折後金額（90%） NT$ 0</div>
-            </div>
-        </section>
-
-        <section class="card">
-            <h2 class="section-title">付款資訊</h2>
-            <div class="pay-info">
-                銀行代號：<strong>彰化銀行（009）</strong><br>
-                銀行帳號：<strong>5272-01-0866-130</strong>
-            </div>
-            <div class="hint" style="margin-top: 10px;">
-                請於匯款完成後填寫帳號後五碼，方便對帳確認。
             </div>
         </section>
 
